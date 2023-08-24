@@ -19,6 +19,7 @@ const Home: React.FC = () => {
                 setPizzas(res)
                 setIsLoading(false)
             })
+        window.scrollTo(0, 0)
     }, [])
 
     const PizzasElements = pizzas.map((pizza, i) => {

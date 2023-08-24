@@ -133,6 +133,11 @@ body {
     }
   }
 
+  &__items {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__item {
     display: flex;
     width: 100%;
