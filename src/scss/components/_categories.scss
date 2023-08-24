@@ -1,8 +1,24 @@
 @import '../variables';
 
 .categories {
+  width: 100%;
+
   ul {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+
+    @media (max-width: 1300px) {
+      margin: 0 auto;
+    }
+
+    @media (max-width: 678px) {
+      // flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+
 
     li {
       background-color: #f9f9f9;
@@ -25,6 +41,11 @@
       &.active {
         background-color: #282828;
         color: #fff;
+      }
+
+      @media (max-width: 678px) {
+        scroll-snap-align: start;
+        margin: 5px 0;
       }
     }
   }
