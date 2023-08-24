@@ -5,10 +5,21 @@ import Categories from '../components/Categories';
 import { PizzasType } from '../types/types';
 import PizzaCard from '../components/PizzaBlock/PizzaCard';
 import PizzaSkelet from '../components/PizzaBlock/PizzaSkelet';
+import Search from '../components/Search/Search';
 
 const Home: React.FC = () => {
+    const [allPizzas, setAllPizzas] = React.useState([] as PizzasType[])
     const [pizzas, setPizzas] = React.useState([] as PizzasType[])
     const [isLoading, setIsLoading] = React.useState(true)
+
+    const [serchValue, setSearchValue] = React.useState('')
+
+    const onSearchChange = (value: string) => {
+        setSearchValue(value)
+    }
+    const onDeleteSearchValue = () => {
+        setSearchValue('')
+    }
 
     useEffect(() => {
         setIsLoading(true)
@@ -17,6 +28,7 @@ const Home: React.FC = () => {
                 return res.json()
             })
             .then(res => {
+                setAllPizzas(res)
                 setPizzas(res)
                 setIsLoading(false)
             })
@@ -27,8 +39,19 @@ const Home: React.FC = () => {
         return (<PizzaCard key={i} {...pizza} />)
     })
 
+    useEffect(() => {
+        if (serchValue !== '') {
+            setPizzas(allPizzas.filter(p => p.title.toLocaleLowerCase().includes(serchValue)))
+        } else {
+            setPizzas(allPizzas)
+        }
+    }, [serchValue])
+
+
+
     return (
         <>
+            <Search serchValue={serchValue} setSearchValue={setSearchValue} onDeleteSearchValue={onDeleteSearchValue} />
             <div className="content__top">
                 <Categories />
                 <Sort />

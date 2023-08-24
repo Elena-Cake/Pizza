@@ -1,0 +1,39 @@
+.search {
+    margin: 15px 0 25px;
+    position: relative;
+
+    .input {
+        width: 400px;
+        max-width: 90%;
+        padding: 10px 15px;
+        padding-left: 40px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, .2);
+        font-size: 16px;
+
+        &:focus {
+            border: 1px solid rgba(0, 0, 0, .35);
+        }
+    }
+
+    &__icon {
+        width: 20px;
+        height: 20px;
+        background-image: url("../../assets/img/search_icon.svg");
+        background-size: 20px 20px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+}
+
+.delete__icon {
+    width: 22px;
+    height: 22px;
+    background-image: url("../../assets/img/delete_icon.svg");
+    background-size: 22px 22px;
+    position: absolute;
+    top: 12px;
+    left: 370px;
+}
