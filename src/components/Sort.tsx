@@ -4,7 +4,23 @@ const Sort = () => {
 
   const [isPopupOpen, setIsOpenPopup] = React.useState(false)
   const [filterSelected, setFilterSelected] = React.useState(0)
-  const sortNames = ['популярности', 'цене', 'алфавиту']
+  const sortNames = [
+    {
+      value: 0,
+      name: 'популярности',
+      nameEng: 'rating'
+    },
+    {
+      value: 1,
+      name: 'цене',
+      nameEng: 'price'
+    },
+    {
+      value: 2,
+      name: 'алфавиту',
+      nameEng: 'title'
+    }
+  ]
 
   const onChangeFilter = (filterId: number) => {
     setFilterSelected(filterId)
@@ -27,18 +43,18 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>{sortNames[filterSelected]}</span>
+        <span>{sortNames[filterSelected].name}</span>
       </div>
       {isPopupOpen &&
         <div className="sort__popup">
           <ul>
-            {sortNames.map((name, i) => {
+            {sortNames.map((sort, i) => {
               return <li
                 key={i}
                 className={filterSelected === i ? 'active' : ''}
-                onClick={() => onChangeFilter(i)}
+                onClick={() => onChangeFilter(sort.value)}
               >
-                {name}
+                {sort.name}
               </li>
             })
             }

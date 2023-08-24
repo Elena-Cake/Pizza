@@ -11,6 +11,7 @@ const Home: React.FC = () => {
     const [isLoading, setIsLoading] = React.useState(true)
 
     useEffect(() => {
+        setIsLoading(true)
         fetch('https://64e5e69209e64530d17f38d2.mockapi.io/items')
             .then(res => {
                 return res.json()
