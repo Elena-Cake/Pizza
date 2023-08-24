@@ -51,7 +51,7 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <Search serchValue={serchValue} setSearchValue={setSearchValue} onDeleteSearchValue={onDeleteSearchValue} />
+            <Search serchValue={serchValue} setSearchValue={onSearchChange} onDeleteSearchValue={onDeleteSearchValue} />
             <div className="content__top">
                 <Categories />
                 <Sort />
