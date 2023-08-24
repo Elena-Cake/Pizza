@@ -3,10 +3,11 @@ import './scss/app.scss';
 import Header from './components/Header';
 import Categories from './components/Categories';
 import Sort from './components/Sort';
-import PizzaCard from './components/PizzaCard';
+import PizzaCard from './components/PizzaBlock/PizzaCard';
 
 // import pizzas from './assets/pizzas.json'
 import { PizzasType } from './types/types';
+import PizzaSkelet from './components/PizzaBlock/PizzaSkelet';
 
 function App() {
   // https://64e5e69209e64530d17f38d2.mockapi.io/items
@@ -41,6 +42,7 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
+            <PizzaSkelet />
             {PizzasElements}
           </div>
         </div>
