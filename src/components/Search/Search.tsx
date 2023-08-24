@@ -21,7 +21,9 @@ const Search: React.FC<Props> = (props) => {
                 placeholder='Поиск пиццы ...'
                 onChange={(e) => onChangeInput(e)}
             />
-            <div className={s.delete__icon} onClick={props.onDeleteSearchValue}></div>
+            {props.serchValue &&
+                <div className={s.delete__icon} onClick={props.onDeleteSearchValue}></div>
+            }
         </div>
     )
 }
