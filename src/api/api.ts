@@ -11,3 +11,7 @@ export const a = 0
 // const sortProperty = sort.replace('-', '')
 // const order = sort.includes('-') ? 'asc' : 'desc'
 // `https://64e5e69209e64530d17f38d2.mockapi.io/items?sortBy=${sortProperty}&order=${order}` (asc)
+
+// search
+// const search = searchValue ? `&search=${searchValue}` :''
+// `https://64e5e69209e64530d17f38d2.mockapi.io/items?${search}`
