@@ -1,7 +1,11 @@
 import React from 'react';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { changeCategory } from '../store/filterSlice';
 
 const Categories = () => {
 
+  const activeCategoryId = useAppSelector(s => s.filter.category)
+  const dispatch = useAppDispatch()
   const [activeIndex, setActiveIndex] = React.useState(0)
 
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
@@ -9,8 +13,8 @@ const Categories = () => {
     return (
       <li
         key={i}
-        className={activeIndex === i ? 'active' : ''}
-        onClick={() => setActiveIndex(i)}
+        className={activeCategoryId === i ? 'active' : ''}
+        onClick={() => dispatch(changeCategory(i))}
       >
         {c}
       </li>

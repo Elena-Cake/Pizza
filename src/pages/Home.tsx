@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import Sort from '../components/Sort';
+import Sort from '../components/Sort/Sort';
 import Categories from '../components/Categories';
 import { PizzasType } from '../types/types';
 import PizzaCard from '../components/PizzaBlock/PizzaCard';

@@ -1,0 +1,14 @@
+.arrow {
+    width: 15px;
+    height: 15px;
+    background-size: contain;
+    margin-right: 5px;
+
+    &__up {
+        background-image: url('../../assets/img/arrow_up.svg');
+    }
+
+    &__down {
+        background-image: url('../../assets/img/arrow_down.svg');
+    }
+}

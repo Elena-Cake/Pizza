@@ -1,9 +1,14 @@
 import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import s from './Sort.module.scss'
+import { changeOrder, changeSort } from '../../store/filterSlice';
 
 const Sort = () => {
+  const dispatch = useAppDispatch()
+  const isOrderDesc = useAppSelector(s => s.filter.isOrderDesc)
+  const selectedSortId = useAppSelector(s => s.filter.sort)
 
   const [isPopupOpen, setIsOpenPopup] = React.useState(false)
-  const [filterSelected, setFilterSelected] = React.useState(0)
   const sortNames = [
     {
       value: 0,
@@ -23,27 +28,17 @@ const Sort = () => {
   ]
 
   const onChangeFilter = (filterId: number) => {
-    setFilterSelected(filterId)
+    dispatch(changeSort(filterId))
     setIsOpenPopup(false)
   }
 
   return (
     <div className="sort">
-      <div className="sort__label" onClick={() => setIsOpenPopup(!isPopupOpen)}>
-        <svg
-          width="10"
-          height="6"
-          viewBox="0 0 10 6"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z"
-            fill="#2C2C2C"
-          />
-        </svg>
+      <div className="sort__label" >
+        <div className={`${s.arrow} ${isOrderDesc ? s.arrow__up : s.arrow__down}`}
+          onClick={() => dispatch(changeOrder())}></div>
         <b>Сортировка по:</b>
-        <span>{sortNames[filterSelected].name}</span>
+        <span onClick={() => setIsOpenPopup(!isPopupOpen)}>{sortNames[selectedSortId].name}</span>
       </div>
       {isPopupOpen &&
         <div className="sort__popup">
@@ -51,7 +46,7 @@ const Sort = () => {
             {sortNames.map((sort, i) => {
               return <li
                 key={i}
-                className={filterSelected === i ? 'active' : ''}
+                className={selectedSortId === i ? 'active' : ''}
                 onClick={() => onChangeFilter(sort.value)}
               >
                 {sort.name}

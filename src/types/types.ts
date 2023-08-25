@@ -1,5 +1,5 @@
 
-export type FiltersNames = 'популярности' | 'цене' | 'алфавиту'
+export type sortNames = 'rating' | 'title' | 'price'
 
 const pizza = {
     id: 0,
