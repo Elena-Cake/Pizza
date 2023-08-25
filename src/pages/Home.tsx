@@ -6,11 +6,14 @@ import { PizzasType } from '../types/types';
 import PizzaCard from '../components/PizzaBlock/PizzaCard';
 import PizzaSkelet from '../components/PizzaBlock/PizzaSkelet';
 import Search from '../components/Search/Search';
+import Pagination from '../components/Pagination/Pagination';
 
 const Home: React.FC = () => {
     const [allPizzas, setAllPizzas] = React.useState([] as PizzasType[])
     const [pizzas, setPizzas] = React.useState([] as PizzasType[])
     const [isLoading, setIsLoading] = React.useState(true)
+    const [currentPage, setCurrentPage] = React.useState(1)
+    const [countPages, setCountPages] = React.useState(1)
 
     const [serchValue, setSearchValue] = React.useState('')
 
@@ -23,17 +26,31 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         setIsLoading(true)
-        fetch('https://64e5e69209e64530d17f38d2.mockapi.io/items')
+        fetch(`https://64e5e69209e64530d17f38d2.mockapi.io/items`)
             .then(res => {
                 return res.json()
             })
             .then(res => {
                 setAllPizzas(res)
                 setPizzas(res)
+                setCountPages(res.length / 3)
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
     }, [])
+
+    useEffect(() => {
+        setIsLoading(true)
+        fetch(`https://64e5e69209e64530d17f38d2.mockapi.io/items?limit=3&page=${currentPage}`)
+            .then(res => {
+                return res.json()
+            })
+            .then(res => {
+                setPizzas(res)
+                setIsLoading(false)
+            })
+        window.scrollTo(0, 0)
+    }, [currentPage])
 
     const PizzasElements = pizzas.map((pizza, i) => {
         return (<PizzaCard key={i} {...pizza} />)
@@ -47,7 +64,9 @@ const Home: React.FC = () => {
         }
     }, [serchValue])
 
-
+    const onChangeCurrentPage = (item: number) => {
+        setCurrentPage(item)
+    }
 
     return (
         <>
@@ -63,6 +82,7 @@ const Home: React.FC = () => {
                     : PizzasElements
                 }
             </div>
+            <Pagination countPages={countPages} onChangeCurrentPage={onChangeCurrentPage} />
         </>
     )
 }

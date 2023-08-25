@@ -50,12 +50,14 @@ body {
   }
 
   &__top {
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: space-between;
+    grid-template-columns: auto 255px;
 
-    @media (max-width:1300px) {
-      flex-direction: column;
+    @media (max-width:860px) {
+      grid-template-columns: auto;
+
       gap: 20px;
     }
   }

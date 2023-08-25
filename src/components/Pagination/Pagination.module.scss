@@ -1,0 +1,40 @@
+.pagination {
+    display: flex;
+    gap: 2%;
+    margin-top: 20px;
+    justify-content: center;
+
+    :global {
+        li {
+            display: inline-block;
+            text-align: center;
+            border: 1px solid #fe5f1e;
+            border-radius: 30px;
+
+            a {
+                line-height: 38px;
+                font-weight: 700;
+                color: #fe5f1e;
+                cursor: pointer;
+                padding: 15px;
+                font-size: 18px;
+            }
+
+            &:hover {
+                background-color: #fe5d1e;
+
+                a {
+                    color: #fff;
+                }
+            }
+        }
+
+        .selected {
+            background-color: #fe5d1e;
+
+            a {
+                color: #fff;
+            }
+        }
+    }
+}
