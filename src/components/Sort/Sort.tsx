@@ -1,31 +1,15 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import s from './Sort.module.scss'
-import { changeOrder, changeSort } from '../../store/filterSlice';
+import { changeOrder, changeSort, sortNames } from '../../store/filterSlice';
 
 const Sort = () => {
   const dispatch = useAppDispatch()
   const isOrderDesc = useAppSelector(s => s.filter.isOrderDesc)
-  const selectedSortId = useAppSelector(s => s.filter.sort)
+  const selectedSortObj = useAppSelector(s => s.filter.sort)
 
   const [isPopupOpen, setIsOpenPopup] = React.useState(false)
-  const sortNames = [
-    {
-      value: 0,
-      name: 'популярности',
-      nameEng: 'rating'
-    },
-    {
-      value: 1,
-      name: 'цене',
-      nameEng: 'price'
-    },
-    {
-      value: 2,
-      name: 'алфавиту',
-      nameEng: 'title'
-    }
-  ]
+
 
   const onChangeFilter = (filterId: number) => {
     dispatch(changeSort(filterId))
@@ -38,7 +22,7 @@ const Sort = () => {
         <div className={`${s.arrow} ${isOrderDesc ? s.arrow__up : s.arrow__down}`}
           onClick={() => dispatch(changeOrder())}></div>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpenPopup(!isPopupOpen)}>{sortNames[selectedSortId].name}</span>
+        <span onClick={() => setIsOpenPopup(!isPopupOpen)}>{selectedSortObj.name}</span>
       </div>
       {isPopupOpen &&
         <div className="sort__popup">
@@ -46,7 +30,7 @@ const Sort = () => {
             {sortNames.map((sort, i) => {
               return <li
                 key={i}
-                className={selectedSortId === i ? 'active' : ''}
+                className={selectedSortObj.value === i ? 'active' : ''}
                 onClick={() => onChangeFilter(sort.value)}
               >
                 {sort.name}

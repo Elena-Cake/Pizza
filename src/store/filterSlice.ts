@@ -1,18 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { sortNames } from '../types/types'
 
 export interface filterState {
     search: null | string
-    category: number
-    sort: number
+    categoryId: number
+    sort: { value: number, name: string, nameEng: string }
     isOrderDesc: boolean
 }
 
+export const sortNames = [
+    {
+        value: 0,
+        name: 'популярности',
+        nameEng: 'rating'
+    },
+    {
+        value: 1,
+        name: 'цене',
+        nameEng: 'price'
+    },
+    {
+        value: 2,
+        name: 'алфавиту',
+        nameEng: 'title'
+    }
+]
+
 const initialState: filterState = {
     search: null,
-    category: 0,
-    sort: 0,
+    categoryId: 0,
+    sort: {
+        value: 0,
+        name: 'популярности',
+        nameEng: 'rating'
+    },
     isOrderDesc: true
 }
 
@@ -20,16 +41,16 @@ export const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
-        changeSearchRow: (state, action: PayloadAction<string>) => {
+        changeSearchRow(state, action: PayloadAction<string>) {
             state.search = action.payload
         },
-        changeCategory: (state, action: PayloadAction<number>) => {
-            state.category = action.payload
+        changeCategory(state, action: PayloadAction<number>) {
+            state.categoryId = action.payload
         },
-        changeSort: (state, action: PayloadAction<number>) => {
-            state.sort = action.payload
+        changeSort(state, action: PayloadAction<number>) {
+            state.sort = sortNames[action.payload]
         },
-        changeOrder: (state) => {
+        changeOrder(state) {
             state.isOrderDesc = !state.isOrderDesc
         }
 
