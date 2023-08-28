@@ -34,7 +34,6 @@ const Home: React.FC = () => {
         dispatch(changeSearchRow(''))
     }
 
-
     // get all pizzas(culculate count of pizzas and count of pages)
     useEffect(() => {
         setIsLoading(true)
@@ -96,10 +95,6 @@ const Home: React.FC = () => {
         }
     }, [currentPage])
 
-    const PizzasElements = pizzas.map((pizza, i) => {
-        return (<PizzaCard key={i} {...pizza} />)
-    })
-
     // filtes pizzas
     useEffect(() => {
         if (searchValue && searchValue !== '') {
@@ -122,7 +117,9 @@ const Home: React.FC = () => {
             <div className="content__items">
                 {isLoading
                     ? [...new Array(COUNT_PIZZAS_ON_PAGE)].map((_, i) => <PizzaSkelet key={i} />)
-                    : PizzasElements
+                    : pizzas.map((pizza, i) => {
+                        return (<PizzaCard key={i} {...pizza} />)
+                    })
                 }
             </div>
             <Pagination />

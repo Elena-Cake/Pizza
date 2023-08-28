@@ -6,6 +6,7 @@ import { SORT_PROPERTIES } from '../../assets/constans';
 
 const Sort = () => {
   const dispatch = useAppDispatch()
+  const sortRef = React.useRef()
   const isOrderDesc = useAppSelector(s => s.filter.isOrderDesc)
   const selectedSortObj = useAppSelector(s => s.filter.sort)
 
@@ -17,8 +18,19 @@ const Sort = () => {
     setIsOpenPopup(false)
   }
 
+  React.useEffect(() => {
+    document.body.addEventListener('click', e => {
+      // @ts-ignore
+      if (e.composedPath().includes(sortRef.current)) {
+        setIsOpenPopup(!isPopupOpen)
+      }
+    })
+
+  }, [])
+
   return (
-    <div className="sort">
+    // @ts-ignore
+    <div className="sort" ref={sortRef}>
       <div className="sort__label" >
         <div className={`${s.arrow} ${isOrderDesc ? s.arrow__up : s.arrow__down}`}
           onClick={() => dispatch(changeOrder())}></div>
