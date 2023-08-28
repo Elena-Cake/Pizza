@@ -1,0 +1,1 @@
+export const COUNT_PIZZAS_ON_PAGE = 3

@@ -19,3 +19,10 @@ const pizza = {
     rating: 4
 }
 export type PizzasType = typeof pizza
+
+export type filtersType = {
+    sortProperty: string,
+    isOrderDesc: boolean,
+    categoryId: number,
+    searchValue: string
+}

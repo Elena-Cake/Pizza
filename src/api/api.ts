@@ -1,17 +1,33 @@
-export const a = 0
+import axios from "axios"
+import { COUNT_PIZZAS_ON_PAGE } from "../assets/constans"
+import { filtersType } from "../types/types"
 
-// all
-// https://64e5e69209e64530d17f38d2.mockapi.io/items
+const Base_URL = `https://64e5e69209e64530d17f38d2.mockapi.io/`
 
-// category
-// `https://64e5e69209e64530d17f38d2.mockapi.io/items?${categoryId>0 ?'category=' + ${categoryId}:''}`
+export const api = {
+    getPizzas() {
+        return axios.get(`${Base_URL}items`)
+            .then(res => {
+                return res.data
+            })
+    },
+    getPizzasPage(page: number) {
+        return axios.get(`${Base_URL}items?limit=${COUNT_PIZZAS_ON_PAGE}&page=${page}`)
+            .then(res => {
+                return res.data
+            })
+    },
+    getPizzasWithFilters(filters: filtersType) {
+        const { sortProperty, isOrderDesc, categoryId, searchValue } = filters
+        const sort = `sortBy=${sortProperty}&order=${isOrderDesc ? 'desc' : 'asc'}`
+        const category = categoryId > 0 ? `category=${categoryId}` : ''
+        const search = searchValue ? `&search=${searchValue}` : ''
 
-// sort
-// const sort = '-rating'
-// const sortProperty = sort.replace('-', '')
-// const order = sort.includes('-') ? 'asc' : 'desc'
-// `https://64e5e69209e64530d17f38d2.mockapi.io/items?sortBy=${sortProperty}&order=${order}` (asc)
-
-// search
-// const search = searchValue ? `&search=${searchValue}` :''
-// `https://64e5e69209e64530d17f38d2.mockapi.io/items?${search}`
+        return axios.get(`${Base_URL}items?` +
+            category + sort + search
+        )
+            .then(res => {
+                return res.data
+            })
+    }
+}
