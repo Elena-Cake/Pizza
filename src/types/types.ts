@@ -26,3 +26,6 @@ export type filtersType = {
     categoryId: number,
     searchValue: string
 }
+export type filtersUrlType = {
+    [key: string]: string
+}

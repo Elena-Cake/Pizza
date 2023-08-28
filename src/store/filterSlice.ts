@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { SORT_PROPERTIES } from '../assets/constans'
+import { filtersUrlType } from '../types/types'
 
 export interface filterState {
-    search: null | string
+    searchValue: null | string
     categoryId: number
     sort: { value: number, name: string, nameEng: string }
     isOrderDesc: boolean,
@@ -14,7 +15,7 @@ export interface filterState {
 
 
 const initialState: filterState = {
-    search: null,
+    searchValue: null,
     categoryId: 0,
     sort: {
         value: 0,
@@ -30,8 +31,16 @@ export const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
+        setFilters(state, action: PayloadAction<filtersUrlType>) {
+            // {sortBy: 'rating', order: 'desc', category: '3', search: 's'}
+            state.categoryId = Number(action.payload.category)
+            state.isOrderDesc = action.payload.order === 'desc'
+            // @ts-ignore
+            state.sort = SORT_PROPERTIES.find(item => item.nameEng === action.payload.sortBy)
+            state.searchValue = action.payload.search
+        },
         changeSearchRow(state, action: PayloadAction<string>) {
-            state.search = action.payload
+            state.searchValue = action.payload
         },
         changeCategory(state, action: PayloadAction<number>) {
             state.categoryId = action.payload
@@ -53,6 +62,7 @@ export const filterSlice = createSlice({
 })
 
 export const {
+    setFilters,
     changeSearchRow, changeCategory, changeSort, changeOrder,
     setCountPages, setCurrentPage
 } = filterSlice.actions
