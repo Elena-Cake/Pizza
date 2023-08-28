@@ -27,7 +27,6 @@ const Home: React.FC = () => {
     const [pizzas, setPizzas] = React.useState([] as PizzasType[])
     const [isLoading, setIsLoading] = React.useState(true)
 
-
     const onSearchChange = (value: string) => {
         dispatch(changeSearchRow(value))
     }
@@ -35,14 +34,8 @@ const Home: React.FC = () => {
         dispatch(changeSearchRow(''))
     }
 
-    useEffect(() => {
-        if (window.location.search) {
-            isUrlParams.current = true
-            const params = qs.parse(window.location.search.substring(1))
-            dispatch(setFilters(params as filtersUrlType))
-        }
-    }, [])
 
+    // get all pizzas(culculate count of pizzas and count of pages)
     useEffect(() => {
         setIsLoading(true)
         api.getPizzas()
@@ -55,6 +48,31 @@ const Home: React.FC = () => {
         window.scrollTo(0, 0)
     }, [])
 
+    // if it's first mount, don't push params to url
+    useEffect(() => {
+        if (isMounted.current) {
+            const urlPropertyString = qs.stringify({
+                sortBy: sort.nameEng,
+                order: isOrderDesc ? 'desc' : 'asc',
+                category: categoryId,
+                search: searchValue
+            })
+            navigate(`?${urlPropertyString}`)
+        } else {
+            isMounted.current = true
+        }
+    }, [searchValue, categoryId, sort.value, isOrderDesc])
+
+    // if find params in url, push it to store
+    useEffect(() => {
+        if (window.location.search) {
+            isUrlParams.current = true
+            const params = qs.parse(window.location.search.substring(1))
+            dispatch(setFilters(params as filtersUrlType))
+        }
+    }, [])
+
+    // if there is not params in url, get first page pizzas
     useEffect(() => {
         if (!isUrlParams) {
             api.getPizzasPage(currentPage)
@@ -65,8 +83,8 @@ const Home: React.FC = () => {
         }
     }, [])
 
+    // change page
     useEffect(() => {
-        console.log('Page', currentPage)
         if (currentPage !== 0) {
             setIsLoading(true)
             api.getPizzasPage(currentPage)
@@ -82,20 +100,7 @@ const Home: React.FC = () => {
         return (<PizzaCard key={i} {...pizza} />)
     })
 
-    useEffect(() => {
-        if (isMounted.current) {
-            const urlPropertyString = qs.stringify({
-                sortBy: sort.nameEng,
-                order: isOrderDesc ? 'desc' : 'asc',
-                category: categoryId,
-                search: searchValue
-            })
-            navigate(`?${urlPropertyString}`)
-        } else {
-            isMounted.current = true
-        }
-    }, [searchValue, categoryId, sort.value, isOrderDesc])
-
+    // filtes pizzas
     useEffect(() => {
         if (searchValue && searchValue !== '') {
             setPizzas(allPizzas.filter(p => p.title.toLocaleLowerCase().includes(searchValue)))
