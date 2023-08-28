@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import s from './Sort.module.scss'
-import { changeOrder, changeSort, sortNames } from '../../store/filterSlice';
+import { changeOrder, changeSort } from '../../store/filterSlice';
+import { SORT_PROPERTIES } from '../../assets/constans';
 
 const Sort = () => {
   const dispatch = useAppDispatch()
@@ -27,7 +28,7 @@ const Sort = () => {
       {isPopupOpen &&
         <div className="sort__popup">
           <ul>
-            {sortNames.map((sort, i) => {
+            {SORT_PROPERTIES.map((sort, i) => {
               return <li
                 key={i}
                 className={selectedSortObj.value === i ? 'active' : ''}

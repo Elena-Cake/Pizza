@@ -1,30 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { SORT_PROPERTIES } from '../assets/constans'
 
 export interface filterState {
     search: null | string
     categoryId: number
     sort: { value: number, name: string, nameEng: string }
-    isOrderDesc: boolean
+    isOrderDesc: boolean,
+    currentPage: number,
+    countPages: number
 }
 
-export const sortNames = [
-    {
-        value: 0,
-        name: 'популярности',
-        nameEng: 'rating'
-    },
-    {
-        value: 1,
-        name: 'цене',
-        nameEng: 'price'
-    },
-    {
-        value: 2,
-        name: 'алфавиту',
-        nameEng: 'title'
-    }
-]
+
 
 const initialState: filterState = {
     search: null,
@@ -34,7 +21,9 @@ const initialState: filterState = {
         name: 'популярности',
         nameEng: 'rating'
     },
-    isOrderDesc: true
+    isOrderDesc: true,
+    countPages: 0,
+    currentPage: 0
 }
 
 export const filterSlice = createSlice({
@@ -48,15 +37,24 @@ export const filterSlice = createSlice({
             state.categoryId = action.payload
         },
         changeSort(state, action: PayloadAction<number>) {
-            state.sort = sortNames[action.payload]
+            state.sort = SORT_PROPERTIES[action.payload]
         },
         changeOrder(state) {
             state.isOrderDesc = !state.isOrderDesc
+        },
+        setCountPages(state, action: PayloadAction<number>) {
+            state.countPages = action.payload
+        },
+        setCurrentPage(state, action: PayloadAction<number>) {
+            state.currentPage = action.payload
         }
 
     },
 })
 
-export const { changeSearchRow, changeCategory, changeSort, changeOrder } = filterSlice.actions
+export const {
+    changeSearchRow, changeCategory, changeSort, changeOrder,
+    setCountPages, setCurrentPage
+} = filterSlice.actions
 
 export default filterSlice.reducer

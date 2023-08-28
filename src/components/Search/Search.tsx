@@ -15,7 +15,7 @@ const Search: React.FC<Props> = (props) => {
     const onChangeInputDebounsed = React.useCallback(
         debounce((value) => {
             props.setSearchValue(value)
-        }, 500),
+        }, 250),
         []
     )
     const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {

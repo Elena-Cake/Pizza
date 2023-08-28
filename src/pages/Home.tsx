@@ -9,21 +9,24 @@ import Search from '../components/Search/Search';
 import Pagination from '../components/Pagination/Pagination';
 import { api } from '../api/api';
 import { COUNT_PIZZAS_ON_PAGE } from '../assets/constans';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { changeSearchRow, setCountPages, setCurrentPage } from '../store/filterSlice';
 
 const Home: React.FC = () => {
+    const dispatch = useAppDispatch()
     const [allPizzas, setAllPizzas] = React.useState([] as PizzasType[])
     const [pizzas, setPizzas] = React.useState([] as PizzasType[])
     const [isLoading, setIsLoading] = React.useState(true)
-    const [currentPage, setCurrentPage] = React.useState(0)
-    const [countPages, setCountPages] = React.useState(1)
 
-    const [serchValue, setSearchValue] = React.useState('')
+    const currentPage = useAppSelector(s => s.filter.currentPage)
+
+    const serchValue = useAppSelector(s => s.filter.search)
 
     const onSearchChange = (value: string) => {
-        setSearchValue(value)
+        dispatch(changeSearchRow(value))
     }
     const onDeleteSearchValue = () => {
-        setSearchValue('')
+        dispatch(changeSearchRow(''))
     }
 
     useEffect(() => {
@@ -32,14 +35,15 @@ const Home: React.FC = () => {
             .then(res => {
                 setAllPizzas(res)
                 setPizzas(res)
-                setCountPages(res.length / COUNT_PIZZAS_ON_PAGE)
-                setCurrentPage(1)
+                dispatch(setCountPages(res.length / COUNT_PIZZAS_ON_PAGE))
+                dispatch(setCurrentPage(1))
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
     }, [])
 
     useEffect(() => {
+        console.log('Page', currentPage)
         if (currentPage !== 0) {
             setIsLoading(true)
             api.getPizzasPage(currentPage)
@@ -56,16 +60,14 @@ const Home: React.FC = () => {
     })
 
     useEffect(() => {
-        if (serchValue !== '') {
+        if (serchValue && serchValue !== '') {
             setPizzas(allPizzas.filter(p => p.title.toLocaleLowerCase().includes(serchValue)))
         } else {
             setPizzas(allPizzas)
         }
     }, [serchValue])
 
-    const onChangeCurrentPage = (item: number) => {
-        setCurrentPage(item)
-    }
+
 
     return (
         <>
@@ -81,7 +83,7 @@ const Home: React.FC = () => {
                     : PizzasElements
                 }
             </div>
-            <Pagination countPages={countPages} onChangeCurrentPage={onChangeCurrentPage} />
+            <Pagination />
         </>
     )
 }
