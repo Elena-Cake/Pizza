@@ -31,13 +31,25 @@ export const cartSlice = createSlice({
             state.countProducts++
             state.totalPrice += action.payload.price
         },
-        removeProduct: (state, action: PayloadAction<number>) => {
-            state.items = state.items.filter(item => item.id !== action.payload)
+        removeProduct: (state, action: PayloadAction<PizzasType>) => {
+            const sameProduct = state.items.find(item => item.id === action.payload.id
+                && item.selectedSize === action.payload.selectedSize
+                && item.selectedType === action.payload.selectedType
+            )
+            if (sameProduct)
+                if (sameProduct.count && sameProduct.count > 1) {
+                    sameProduct.count--
+                } else {
+                    state.items = state.items.filter(item => item !== sameProduct)
+                }
             state.countProducts--
+            state.totalPrice -= action.payload.price
+
         },
         clearProducts: (state) => {
             state.items = []
             state.totalPrice = 0
+            state.countProducts = 0
         },
 
 
