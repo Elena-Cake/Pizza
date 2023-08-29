@@ -73,7 +73,7 @@ const PizzaCard: React.FC<PropsType> = ({ pizza }) => {
                         />
                     </svg>
                     <span >Добавить</span>
-                    <i>{countPizzasInCart ? countPizzasInCart : 0}</i>
+                    {countPizzasInCart && <i>{countPizzasInCart}</i>}
                 </button>
             </div>
         </div>
