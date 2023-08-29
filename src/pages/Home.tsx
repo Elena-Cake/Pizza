@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Sort from '../components/Sort/Sort';
 import Categories from '../components/Categories';
-import { PizzasType, filtersUrlType } from '../types/types';
+import { PizzasType, UrlFilterType, filtersUrlType } from '../types/types';
 import PizzaCard from '../components/PizzaBlock/PizzaCard';
 import PizzaSkelet from '../components/PizzaBlock/PizzaSkelet';
 import Search from '../components/Search/Search';
@@ -27,12 +27,6 @@ const Home: React.FC = () => {
     const [pizzas, setPizzas] = React.useState([] as PizzasType[])
     const [isLoading, setIsLoading] = React.useState(true)
 
-    const onSearchChange = (value: string) => {
-        dispatch(changeSearchRow(value))
-    }
-    const onDeleteSearchValue = () => {
-        dispatch(changeSearchRow(''))
-    }
 
     // get all pizzas(culculate count of pizzas and count of pages)
     useEffect(() => {
@@ -50,12 +44,14 @@ const Home: React.FC = () => {
     // if it's first mount, don't push params to url
     useEffect(() => {
         if (isMounted.current) {
-            const urlPropertyString = qs.stringify({
-                sortBy: sort.nameEng,
-                order: isOrderDesc ? 'desc' : 'asc',
-                category: categoryId,
-                search: searchValue
-            })
+            const urlPropertyObj = {} as UrlFilterType
+
+            if (sort.nameEng) urlPropertyObj.sortBy = sort.nameEng
+            if (categoryId) urlPropertyObj.category = categoryId
+            if (searchValue) urlPropertyObj.search = searchValue
+            urlPropertyObj.order = isOrderDesc ? 'desc' : 'asc'
+
+            const urlPropertyString = qs.stringify(urlPropertyObj)
             navigate(`?${urlPropertyString}`)
         } else {
             isMounted.current = true
@@ -104,11 +100,9 @@ const Home: React.FC = () => {
         }
     }, [searchValue])
 
-
-
     return (
         <>
-            <Search setSearchValue={onSearchChange} onDeleteSearchValue={onDeleteSearchValue} />
+            <Search />
             <div className="content__top">
                 <Categories />
                 <Sort />

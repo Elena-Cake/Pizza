@@ -29,3 +29,10 @@ export type filtersType = {
 export type filtersUrlType = {
     [key: string]: string
 }
+
+export type UrlFilterType = {
+    sortBy?: string,
+    order: 'desc' | 'asc',
+    category?: number,
+    search?: string
+}

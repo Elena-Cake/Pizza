@@ -18,14 +18,17 @@ const Sort = () => {
     setIsOpenPopup(false)
   }
 
-  React.useEffect(() => {
-    document.body.addEventListener('click', e => {
-      // @ts-ignore
-      if (e.composedPath().includes(sortRef.current)) {
-        setIsOpenPopup(!isPopupOpen)
-      }
-    })
 
+  React.useEffect(() => {
+    const handleClickOutsidePopup = (e: MouseEvent) => {
+      // @ts-ignore
+      if (!e.composedPath().includes(sortRef.current)) {
+        setIsOpenPopup(false)
+      }
+    }
+    document.body.addEventListener('click', handleClickOutsidePopup)
+
+    return () => { document.body.removeEventListener('click', handleClickOutsidePopup) }
   }, [])
 
   return (
@@ -35,7 +38,7 @@ const Sort = () => {
         <div className={`${s.arrow} ${isOrderDesc ? s.arrow__up : s.arrow__down}`}
           onClick={() => dispatch(changeOrder())}></div>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpenPopup(!isPopupOpen)}>{selectedSortObj.name}</span>
+        <span onClick={() => setIsOpenPopup(true)}>{selectedSortObj.name}</span>
       </div>
       {isPopupOpen &&
         <div className="sort__popup">

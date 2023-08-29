@@ -1,4 +1,4 @@
-export const COUNT_PIZZAS_ON_PAGE = 3
+export const COUNT_PIZZAS_ON_PAGE = 4
 
 export const SORT_PROPERTIES = [
     {
