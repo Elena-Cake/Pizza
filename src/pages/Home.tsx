@@ -13,6 +13,8 @@ import { useAppDispatch, useAppSelector } from '../store/store';
 import { changeSearchRow, setCountPages, setCurrentPage, setFilters } from '../store/filterSlice';
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom';
+import { getAllPizzas, getPizzas } from '../store/pizzasSlice';
+import ErrorPiazzas from '../components/PizzaBlock/ErrorPiazzas';
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
@@ -23,21 +25,18 @@ const Home: React.FC = () => {
     const currentPage = useAppSelector(s => s.filter.currentPage)
     const { searchValue, categoryId, sort, isOrderDesc } = useAppSelector(s => s.filter)
 
-    const [allPizzas, setAllPizzas] = React.useState([] as PizzasType[])
-    const [pizzas, setPizzas] = React.useState([] as PizzasType[])
+    const pizzas = useAppSelector(s => s.pizzas.items)
+    const status = useAppSelector(s => s.pizzas.status)
     const [isLoading, setIsLoading] = React.useState(true)
 
 
     // get all pizzas(culculate count of pizzas and count of pages)
-    useEffect(() => {
+    const startPageLoading = async () => {
         setIsLoading(true)
-        api.getPizzas()
-            .then(res => {
-                setAllPizzas(res)
-                dispatch(setCountPages(res.length / COUNT_PIZZAS_ON_PAGE))
-                dispatch(setCurrentPage(1))
-                setIsLoading(false)
-            })
+        dispatch(getAllPizzas())
+    }
+    useEffect(() => {
+        startPageLoading()
         window.scrollTo(0, 0)
     }, [])
 
@@ -53,6 +52,8 @@ const Home: React.FC = () => {
 
             const urlPropertyString = qs.stringify(urlPropertyObj)
             navigate(`?${urlPropertyString}`)
+
+            dispatch(getPizzas(urlPropertyObj))
         } else {
             isMounted.current = true
         }
@@ -72,7 +73,7 @@ const Home: React.FC = () => {
         if (!isUrlParams) {
             api.getPizzasPage(currentPage)
                 .then(res => {
-                    setPizzas(res)
+                    // setPizzas(res)
                     setIsLoading(false)
                 })
         }
@@ -84,7 +85,7 @@ const Home: React.FC = () => {
             setIsLoading(true)
             api.getPizzasPage(currentPage)
                 .then(res => {
-                    setPizzas(res)
+                    // setPizzas(res)
                     setIsLoading(false)
                 })
             window.scrollTo(0, 0)
@@ -94,9 +95,9 @@ const Home: React.FC = () => {
     // filtes pizzas
     useEffect(() => {
         if (searchValue && searchValue !== '') {
-            setPizzas(allPizzas.filter(p => p.title.toLocaleLowerCase().includes(searchValue)))
+            // setPizzas(allPizzas.filter(p => p.title.toLocaleLowerCase().includes(searchValue)))
         } else {
-            setPizzas(allPizzas)
+            // setPizzas(allPizzas)
         }
     }, [searchValue])
 
@@ -109,11 +110,11 @@ const Home: React.FC = () => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                {isLoading
-                    ? [...new Array(COUNT_PIZZAS_ON_PAGE)].map((_, i) => <PizzaSkelet key={i} />)
-                    : pizzas.map((pizza, i) => {
-                        return (<PizzaCard key={i} pizza={pizza} />)
-                    })
+                {status === 'loading' && [...new Array(COUNT_PIZZAS_ON_PAGE)].map((_, i) => <PizzaSkelet key={i} />)}
+                {status === 'error' && <ErrorPiazzas />}
+                {status === 'sucsess' && pizzas.map((pizza, i) => {
+                    return (<PizzaCard key={i} pizza={pizza} />)
+                })
                 }
             </div>
             <Pagination />

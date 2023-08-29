@@ -3,11 +3,13 @@ import filterSlice from './filterSlice'
 
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 import cartSlice from './cartSlice'
+import pizzasSlice from './pizzasSlice'
 
 export const store = configureStore({
     reducer: {
         filter: filterSlice,
-        cart: cartSlice
+        cart: cartSlice,
+        pizzas: pizzasSlice
     },
 })
 
