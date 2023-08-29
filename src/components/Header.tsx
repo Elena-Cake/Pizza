@@ -6,7 +6,7 @@ import { useAppSelector } from '../store/store';
 const Header = () => {
 
   const totalPrice = useAppSelector(s => s.cart.totalPrice)
-  const countProducts = useAppSelector(s => s.cart.items.length)
+  const countProducts = useAppSelector(s => s.cart.countProducts)
 
   return (
     <div className="header">

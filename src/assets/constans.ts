@@ -17,3 +17,5 @@ export const SORT_PROPERTIES = [
         nameEng: 'title'
     }
 ]
+
+export const typesNames = ['тонкое', 'традиционное']

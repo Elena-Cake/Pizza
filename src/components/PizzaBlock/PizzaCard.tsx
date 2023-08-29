@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { typesNames } from '../../assets/constans';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { addProduct } from '../../store/cartSlice';
+import { PizzasType } from '../../types/types';
+import s from './PizzaCard.module.scss'
 
 type PropsType = {
-    title: string,
-    price: number,
-    imageUrl: string,
-    sizes: number[],
-    types: number[]
+    pizza: PizzasType
 }
 
-const PizzaCard: React.FC<PropsType> = ({ title, price, imageUrl, sizes, types }) => {
+const PizzaCard: React.FC<PropsType> = ({ pizza }) => {
+    const dispatch = useAppDispatch()
 
-    const typesNames = ['тонкое', 'традиционное']
     const [activeType, setActiveType] = React.useState(0)
     const [activeSize, setActiveSize] = React.useState(0)
+
+    const countPizzasInCart = useAppSelector(s => s.cart.items.find(item => item.id === pizza.id
+        && item.selectedSize === pizza.sizes[activeSize]
+        && item.selectedType === typesNames[activeType])
+        ?.count)
+
+    const handleAddProduct = () => {
+        dispatch(addProduct({ ...pizza, selectedSize: pizza.sizes[activeSize], selectedType: typesNames[activeType] }))
+    }
 
     return (
         <div className="pizza-block">
             <img
                 className="pizza-block__image"
-                src={imageUrl}
+                src={pizza.imageUrl}
                 alt="Pizza"
             />
-            <h4 className="pizza-block__title">{title}</h4>
+            <h4 className="pizza-block__title">{pizza.title}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    {types.map((type, i) => {
+                    {pizza.types.map((type, i) => {
                         return <li
                             key={i}
                             className={i === activeType ? "active" : ''}
@@ -36,7 +46,7 @@ const PizzaCard: React.FC<PropsType> = ({ title, price, imageUrl, sizes, types }
                     }
                 </ul>
                 <ul>
-                    {sizes.map((s, i) => {
+                    {pizza.sizes.map((s, i) => {
                         return <li
                             key={i}
                             className={i === activeSize ? 'active' : ''}
@@ -48,8 +58,8 @@ const PizzaCard: React.FC<PropsType> = ({ title, price, imageUrl, sizes, types }
                 </ul>
             </div>
             <div className="pizza-block__bottom">
-                <div className="pizza-block__price">от {price} ₽</div>
-                <div className="button button--outline button--add">
+                <div className="pizza-block__price">от {pizza.price} ₽</div>
+                <button onClick={() => handleAddProduct()} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
@@ -62,9 +72,9 @@ const PizzaCard: React.FC<PropsType> = ({ title, price, imageUrl, sizes, types }
                             fill="white"
                         />
                     </svg>
-                    <span>Добавить</span>
-                    <i>0</i>
-                </div>
+                    <span >Добавить</span>
+                    <i>{countPizzasInCart ? countPizzasInCart : 0}</i>
+                </button>
             </div>
         </div>
     )

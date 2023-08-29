@@ -112,7 +112,7 @@ const Home: React.FC = () => {
                 {isLoading
                     ? [...new Array(COUNT_PIZZAS_ON_PAGE)].map((_, i) => <PizzaSkelet key={i} />)
                     : pizzas.map((pizza, i) => {
-                        return (<PizzaCard key={i} {...pizza} />)
+                        return (<PizzaCard key={i} pizza={pizza} />)
                     })
                 }
             </div>

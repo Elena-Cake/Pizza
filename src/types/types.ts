@@ -1,24 +1,21 @@
+import { number, strict } from "yargs"
 
 export type sortNames = 'rating' | 'title' | 'price'
 
-const pizza = {
-    id: 0,
-    imageUrl: "https://dodopizza.azureedge.net/static/Img/Products/f035c7f46c0844069722f2bb3ee9f113_584x584.jpeg",
-    title: "Пепперони Фреш с перцем",
-    types: [
-        0,
-        1
-    ],
-    sizes: [
-        26,
-        30,
-        40
-    ],
-    price: 803,
-    category: 0,
-    rating: 4
+export type PizzasType = {
+    id: number,
+    imageUrl: string,
+    title: string,
+    types: number[],
+    sizes: number[],
+    price: number,
+    category: number,
+    rating: number,
+    selectedSize?: number,
+    selectedType?: string,
+    count?: number
 }
-export type PizzasType = typeof pizza
+// export type PizzasType = typeof pizza
 
 
 export type filtersType = {
