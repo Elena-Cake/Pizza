@@ -20,6 +20,7 @@ const pizza = {
 }
 export type PizzasType = typeof pizza
 
+
 export type filtersType = {
     sortProperty: string,
     isOrderDesc: boolean,
