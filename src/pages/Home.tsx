@@ -22,8 +22,7 @@ const Home: React.FC = () => {
     const isUrlParams = React.useRef(false)
     const isMounted = React.useRef(false)
 
-    const currentPage = useAppSelector(s => s.filter.currentPage)
-    const { searchValue, categoryId, sort, isOrderDesc } = useAppSelector(s => s.filter)
+    const { searchValue, categoryId, sort, isOrderDesc, currentPage } = useAppSelector(s => s.filter)
 
     const pizzas = useAppSelector(s => s.pizzas.items)
     const status = useAppSelector(s => s.pizzas.status)
@@ -33,7 +32,12 @@ const Home: React.FC = () => {
     // get all pizzas(culculate count of pizzas and count of pages)
     const startPageLoading = async () => {
         setIsLoading(true)
-        dispatch(getAllPizzas())
+        // dispatch(getAllPizzas())
+        dispatch(getPizzas({
+            order: "desc",
+            page: 1,
+            sortBy: "rating"
+        }))
     }
     useEffect(() => {
         startPageLoading()
@@ -49,7 +53,8 @@ const Home: React.FC = () => {
             if (categoryId) urlPropertyObj.category = categoryId
             if (searchValue) urlPropertyObj.search = searchValue
             urlPropertyObj.order = isOrderDesc ? 'desc' : 'asc'
-
+            urlPropertyObj.page = currentPage
+            console.log(urlPropertyObj)
             const urlPropertyString = qs.stringify(urlPropertyObj)
             navigate(`?${urlPropertyString}`)
 
@@ -57,7 +62,7 @@ const Home: React.FC = () => {
         } else {
             isMounted.current = true
         }
-    }, [searchValue, categoryId, sort.value, isOrderDesc])
+    }, [searchValue, categoryId, sort.value, isOrderDesc, currentPage])
 
     // if find params in url, push it to store
     useEffect(() => {

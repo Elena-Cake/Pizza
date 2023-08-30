@@ -32,5 +32,6 @@ export type UrlFilterType = {
     sortBy?: string,
     order: 'desc' | 'asc',
     category?: number,
-    search?: string
+    search?: string,
+    page: number
 }

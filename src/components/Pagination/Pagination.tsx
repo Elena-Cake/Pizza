@@ -8,7 +8,9 @@ import { setCurrentPage } from '../../store/filterSlice';
 
 export default function Pagination() {
     const dispatch = useAppDispatch()
-    const countPages = useAppSelector(s => s.filter.countPages)
+    // const countPages = useAppSelector(s => s.filter.countPages)
+    const countPages = 3
+
 
     return (
         <ReactPaginate

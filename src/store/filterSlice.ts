@@ -32,12 +32,13 @@ export const filterSlice = createSlice({
     initialState,
     reducers: {
         setFilters(state, action: PayloadAction<filtersUrlType>) {
-            // {sortBy: 'rating', order: 'desc', category: '3', search: 's'}
+            // {sortBy: 'rating', order: 'desc', category: '3', search: 's', page: 1}
             state.categoryId = Number(action.payload.category)
             state.isOrderDesc = action.payload.order === 'desc'
             // @ts-ignore
             state.sort = SORT_PROPERTIES.find(item => item.nameEng === action.payload.sortBy)
             state.searchValue = action.payload.search
+            state.currentPage = Number(action.payload.page)
         },
         changeSearchRow(state, action: PayloadAction<string>) {
             state.searchValue = action.payload
@@ -55,7 +56,8 @@ export const filterSlice = createSlice({
             state.countPages = action.payload
         },
         setCurrentPage(state, action: PayloadAction<number>) {
-            state.currentPage = action.payload
+            if (action.payload) state.currentPage = action.payload
+
         }
 
     },
