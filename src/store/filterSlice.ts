@@ -12,8 +12,6 @@ export interface filterState {
     countPages: number
 }
 
-
-
 const initialState: filterState = {
     searchValue: null,
     categoryId: 0,
@@ -35,8 +33,8 @@ export const filterSlice = createSlice({
             // {sortBy: 'rating', order: 'desc', category: '3', search: 's', page: 1}
             state.categoryId = Number(action.payload.category)
             state.isOrderDesc = action.payload.order === 'desc'
-            // @ts-ignore
-            state.sort = SORT_PROPERTIES.find(item => item.nameEng === action.payload.sortBy)
+            const sort = SORT_PROPERTIES.find(item => item.nameEng === action.payload.sortBy)
+            if (sort) state.sort = sort
             state.searchValue = action.payload.search
             state.currentPage = Number(action.payload.page)
         },

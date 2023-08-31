@@ -1,6 +1,6 @@
 import axios from "axios"
 import { COUNT_PIZZAS_ON_PAGE } from "../assets/constans"
-import { UrlFilterType, filtersType } from "../types/types"
+import { UrlFilterType } from "../types/types"
 
 const Base_URL = `https://64e5e69209e64530d17f38d2.mockapi.io/`
 
@@ -18,7 +18,6 @@ export const api = {
             })
     },
     getPizzasWithFilters(filters: UrlFilterType) {
-
         const { sortBy, order, category, search, page } = filters
         const sortParam = `sortBy=${sortBy}&order=${order}`
         const categoryParam = category && category > 0 ? `&category=${category}` : ''

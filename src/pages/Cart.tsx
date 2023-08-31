@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import { useAppSelector } from '../store/store';
 import CartBlock from '../components/Cart/CartBlock';
 import CartEmpty from '../components/Cart/CartEmpty';

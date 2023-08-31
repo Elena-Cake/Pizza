@@ -11,7 +11,6 @@ export default function Pagination() {
     // const countPages = useAppSelector(s => s.filter.countPages)
     const countPages = 3
 
-
     return (
         <ReactPaginate
             className={s.pagination}

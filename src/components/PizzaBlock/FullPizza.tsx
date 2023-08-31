@@ -1,28 +1,30 @@
 import React from "react"
 import { typesNames } from "../../assets/constans"
-import { useAppDispatch, useAppSelector } from "../../store/store"
+import { useAppDispatch } from "../../store/store"
 import { addProduct } from "../../store/cartSlice"
-import { useParams } from "react-router-dom"
-import { getPizzaWithId } from "../../store/pizzasSlice"
+import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { PizzasType } from "../../types/types"
 
 
 const FullPizza: React.FC = () => {
-
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const { pizzaId } = useParams()
 
-    const [pizza, setPizza] = React.useState(null as PizzasType | null)
+    const [pizza, setPizza] = React.useState<PizzasType>()
 
     React.useEffect(() => {
         async function fetchPizza() {
             try {
                 const { data } = await axios.get(`https://64e5e69209e64530d17f38d2.mockapi.io/items?id=${pizzaId}`)
-                console.log(data)
+                if (!data[0].id) {
+                    navigate('/')
+                }
                 setPizza(data[0])
             } catch (err) {
-                console.log(err)
+                alert('ошибка загрузки пиццы')
+                navigate('/')
             }
         }
         fetchPizza()
@@ -42,7 +44,6 @@ const FullPizza: React.FC = () => {
             dispatch(addProduct({ ...pizza, selectedSize: pizza.sizes[activeSize], selectedType: typesNames[activeType] }))
         }
     }
-
 
     return (
         <div className="">

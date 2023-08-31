@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Sort from '../components/Sort/Sort';
 import Categories from '../components/Categories';
-import { PizzasType, UrlFilterType, filtersUrlType } from '../types/types';
+import { UrlFilterType, filtersUrlType } from '../types/types';
 import PizzaCard from '../components/PizzaBlock/PizzaCard';
 import PizzaSkelet from '../components/PizzaBlock/PizzaSkelet';
 import Search from '../components/Search/Search';
@@ -10,10 +10,10 @@ import Pagination from '../components/Pagination/Pagination';
 import { api } from '../api/api';
 import { COUNT_PIZZAS_ON_PAGE } from '../assets/constans';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { changeSearchRow, setCountPages, setCurrentPage, setFilters } from '../store/filterSlice';
+import { setFilters } from '../store/filterSlice';
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom';
-import { getAllPizzas, getPizzas } from '../store/pizzasSlice';
+import { getPizzas } from '../store/pizzasSlice';
 import ErrorPiazzas from '../components/PizzaBlock/ErrorPiazzas';
 
 const Home: React.FC = () => {
@@ -98,13 +98,13 @@ const Home: React.FC = () => {
     }, [currentPage])
 
     // filtes pizzas
-    useEffect(() => {
-        if (searchValue && searchValue !== '') {
-            // setPizzas(allPizzas.filter(p => p.title.toLocaleLowerCase().includes(searchValue)))
-        } else {
-            // setPizzas(allPizzas)
-        }
-    }, [searchValue])
+    // useEffect(() => {
+    //     if (searchValue && searchValue !== '') {
+    //         setPizzas(allPizzas.filter(p => p.title.toLocaleLowerCase().includes(searchValue)))
+    //     } else {
+    //         setPizzas(allPizzas)
+    //     }
+    // }, [searchValue])
 
     return (
         <>

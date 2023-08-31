@@ -6,7 +6,6 @@ const Categories = () => {
 
   const activeCategoryId = useAppSelector(s => s.filter.categoryId)
   const dispatch = useAppDispatch()
-  // const [activeIndex, setActiveIndex] = React.useState(0)
 
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 

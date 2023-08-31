@@ -1,6 +1,5 @@
 import React from 'react';
-import cartEmptyImg from '../../assets/img/empty-cart.png'
-import { Link } from 'react-router-dom';
+
 // !!!!!classes
 const ErrorPiazzas = () => {
     return (

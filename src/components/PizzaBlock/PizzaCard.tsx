@@ -3,7 +3,6 @@ import { typesNames } from '../../assets/constans';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addProduct } from '../../store/cartSlice';
 import { PizzasType } from '../../types/types';
-import s from './PizzaCard.module.scss'
 import { Link } from 'react-router-dom';
 
 type PropsType = {
