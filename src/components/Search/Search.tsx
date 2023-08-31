@@ -24,7 +24,7 @@ const Search: React.FC = () => {
     }
 
     const handleDeleteSearchValue = () => {
-        if (inputRef.current) inputRef.current.focus()
+        inputRef.current?.focus()
         dispatch(changeSearchRow(''))
     }
 
