@@ -31,5 +31,12 @@ export const api = {
             .then(res => {
                 return res.data
             })
+    },
+    getPizzaWithId(id: number) {
+        return axios.get(`${Base_URL}items?id=${id}`)
+            .then(res => {
+                return res.data
+            })
     }
+
 }

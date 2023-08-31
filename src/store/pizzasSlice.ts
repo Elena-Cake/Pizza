@@ -7,12 +7,14 @@ export interface pizzaState {
     allPizzasPageCount: number
     items: PizzasType[]
     status: 'loading' | 'sucsess' | 'error'
+    item: PizzasType
 }
 
 const initialState: pizzaState = {
     allPizzasPageCount: 0,
     items: [],
-    status: 'loading'
+    status: 'loading',
+    item: { id: 0, imageUrl: "", title: "", types: [0], sizes: [0], price: 0, category: 0, rating: 6 }
 }
 
 export const getAllPizzas = createAsyncThunk(
@@ -31,14 +33,25 @@ export const getPizzas = createAsyncThunk(
     }
 )
 
+export const getPizzaWithId = createAsyncThunk(
+    'pizzas/getPizzaWithId',
+    async (id: number) => {
+        const res = await api.getPizzaWithId(id)
+        return res
+    }
+)
+
 export const pizzasSlice = createSlice({
     name: 'pizzas',
     initialState,
     reducers: {
         setPizzas: (state, action: PayloadAction<PizzasType[]>) => {
             state.items = action.payload
+        },
+        setPizzaWithId: (state, action: PayloadAction<number>) => {
+            const item = state.items.find(item => item.id === action.payload)
+            if (item) state.item = item
         }
-
     },
     extraReducers: (builder) => {
         builder.addCase(getAllPizzas.fulfilled, (state, action) => {
@@ -57,6 +70,11 @@ export const pizzasSlice = createSlice({
             state.status = 'error'
         })
 
+
+        builder.addCase(getPizzaWithId.fulfilled, (state, action) => {
+            state.status = 'sucsess'
+            state.item = action.payload
+        })
     },
 })
 

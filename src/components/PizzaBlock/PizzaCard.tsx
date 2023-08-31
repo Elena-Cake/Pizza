@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addProduct } from '../../store/cartSlice';
 import { PizzasType } from '../../types/types';
 import s from './PizzaCard.module.scss'
+import { Link } from 'react-router-dom';
 
 type PropsType = {
     pizza: PizzasType
@@ -26,12 +27,14 @@ const PizzaCard: React.FC<PropsType> = ({ pizza }) => {
 
     return (
         <div className="pizza-block">
-            <img
-                className="pizza-block__image"
-                src={pizza.imageUrl}
-                alt="Pizza"
-            />
-            <h4 className="pizza-block__title">{pizza.title}</h4>
+            <Link to={`/pizza/${pizza.id}`}>
+                <img
+                    className="pizza-block__image"
+                    src={pizza.imageUrl}
+                    alt="Pizza"
+                />
+                <h4 className="pizza-block__title">{pizza.title}</h4>
+            </Link>
             <div className="pizza-block__selector">
                 <ul>
                     {pizza.types.map((type, i) => {

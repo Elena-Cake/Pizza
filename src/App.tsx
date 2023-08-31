@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
+import FullPizza from './components/PizzaBlock/FullPizza';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Routes >
             <Route path="/" element={<Home />} />
             <Route path="/cart/" element={<Cart />} />
+            <Route path="/pizza/:pizzaId" element={<FullPizza />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
